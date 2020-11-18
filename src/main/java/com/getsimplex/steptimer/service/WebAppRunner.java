@@ -27,11 +27,7 @@ public class WebAppRunner {
             System.out.println("Unable to create Test Reservations due to: "+e.getMessage());
         }
 
-        MessageIntake.route(new StartReceivingKafkaMessages());//connect to customer-risk topic
-
-        MessageIntake.route(new ContinueTruckingSimulation());//balance simulation for bank account exercises
-
-        Spark.port(getHerokuAssignedPort());
+        MessageIntake.route(new ContinueTruckingSimulation());//this triggers endless loop of trucking simulation events
 
         createTestUser();
 
@@ -178,14 +174,7 @@ public class WebAppRunner {
         }
 
     }
-	
-    private static int getHerokuAssignedPort() {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        if (processBuilder.environment().get("PORT") != null) {
-            return Integer.parseInt(processBuilder.environment().get("PORT"));
-        }
-        return Configuration.getConfiguration().getInt("suresteps.port"); //return default port if heroku-port isn't set (i.e. on localhost)
-    }
+
 
     private static void createTestUser(){//for Udacity course local use only
 

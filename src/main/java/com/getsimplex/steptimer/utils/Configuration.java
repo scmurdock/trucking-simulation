@@ -23,6 +23,11 @@ public class Configuration {
         return config;
     }
 
+    public static Config getEnvConfiguration(){
+        Config config = ConfigFactory.systemEnvironment();
+        return config;
+    }
+
     public static Boolean isConfigFileOnClassPath(){
         return configFileOnClassPath;
     }
