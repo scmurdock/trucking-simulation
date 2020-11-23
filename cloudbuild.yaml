@@ -20,7 +20,7 @@ steps:
 
   # This step builds the container image.
   - name: 'gcr.io/cloud-builders/docker'
-    id: Build
+    id: Build-Latest
     args:
       - 'build'
       - '-t'
@@ -31,7 +31,7 @@ steps:
   # The PROJECT_ID and SHORT_SHA variables are automatically
   # replaced by Cloud Build.
   - name: 'gcr.io/cloud-builders/docker'
-    id: Push
+    id: Push-Latest
     args:
       - 'push'
       - 'gcr.io/$PROJECT_ID/trucking-simulation:latest'
