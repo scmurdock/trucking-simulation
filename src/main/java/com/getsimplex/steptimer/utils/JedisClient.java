@@ -27,18 +27,33 @@ public class JedisClient {
             host = System.getenv("REDIS_HOST");
             port = System.getenv("REDIS_PORT");
             dbName = System.getenv("REDIS_DB");
-            url = "redis://:"+password+"@"+host+":"+port+"/"+dbName;
+            if (password !=null && !password.isEmpty()){
+                url = "redis://:"+password+"@"+host+":"+port+"/"+dbName;
+                jedis  = new Jedis(url);
+            }
+            else{
+                jedis = new Jedis(host, Integer.valueOf(port));
+            }
 
         } else{
-             config = Configuration.getConfiguration();
-             password = config.getString("redis.password");
-             host = config.getString("redis.host");
-             port = config.getString("redis.port");
-             dbName = config.getString("redis.db");
-             url = "redis://:"+password+"@"+host+":"+port+"/"+dbName;
+            config = Configuration.getConfiguration();
+            try {
+                password = config.getString("redis.password");
+            } catch (Exception e){
+                //config object throws exception for non-existent keys, workaround is to catch the exception
+            }
+            host = config.getString("redis.host");
+            port = config.getString("redis.port");
+            dbName = config.getString("redis.db");
+            if (password !=null && !password.isEmpty()){
+                url = "redis://:"+password+"@"+host+":"+port+"/"+dbName;
+                jedis  = new Jedis(url);
+            } else{
+                jedis = new Jedis(host, Integer.valueOf(port));
+            }
 
         }
-        jedis  = new Jedis(url);
+
     }
 
     public static synchronized Jedis getJedis(){
@@ -50,7 +65,7 @@ public class JedisClient {
         catch (Exception e){
             jedis = new Jedis(url);
         }
-    return jedis;
+        return jedis;
     }
 
     public static synchronized void set(String key, String value) throws Exception{
