@@ -12,12 +12,12 @@ public class TruckingSimulationDataDriver {
     private static String[] firstNames = {"Sarah", "Bobby", "Frank", "Edward", "Danny", "Chris", "Spencer", "Ashley", "Santosh", "Senthil", "Christina", "Suresh", "Neeraj", "Angie", "Sean", "Lyn", "John", "Ben", "Travis", "David", "Larry", "Jerry", "Gail", "Craig", "Dan", "Jason", "Eric", "Trevor", "Jane", "Jacob", "Jaya", "Manoj", "Liz", "Christina"};
     private static String[] locations = {"Alabama", "Indiana", "New Mexico", "Georgia", "Illinois", "Nevada", "Colardo", "Maryland", "Canada", "South Dakota", "Iowa", "Tennessee", "Pennsylvania", "Texas", "Arizona", "Louisiana", "Florida", "Michigan", "Wisconsin", "Minnesota"};
     private static String[] gearPositions = {"Neutral", "Drive", "Reverse", "Park"};
-    private static List<Customer> testCustomers = new ArrayList<Customer>();
-    private static Map<String, Truck> testTrucks = new HashMap<String, Truck>();
-    private static List<Reservation> testReservations = new ArrayList<Reservation>();
+    private static volatile List<Customer> testCustomers = new ArrayList<Customer>();
+    private static volatile Map<String, Truck> testTrucks = new HashMap<String, Truck>();
+    private static volatile List<Reservation> testReservations = new ArrayList<Reservation>();
     private static Random random = new Random();
     private static Gson gson = new Gson();
-    private static boolean simulationActive = false;
+    private static volatile boolean simulationActive = false;
 
 
     public static synchronized void generateTestCustomers(int numberOfUsers) {
@@ -55,7 +55,7 @@ public class TruckingSimulationDataDriver {
         }
     }
 
-    public static void generateTestReservations() throws Exception {
+    public static synchronized void generateTestReservations() throws Exception {
         for (Customer testCustomer:testCustomers){
             Reservation reservation = createNewReservation(testCustomer);
             testReservations.add(reservation);
@@ -156,7 +156,7 @@ public class TruckingSimulationDataDriver {
         payment.setCustomerId(payingReservation.getCustomerId());
         payment.setCustomerName(payingReservation.getCustomerName());
 
-        JedisData.loadToJedis(payment, Payment.class);
+//        JedisData.loadToJedis(payment, Payment.class);
 
         Thread.sleep(2000);
     }

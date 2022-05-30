@@ -29,6 +29,8 @@ public class WebAppRunner {
 
         MessageIntake.route(new ContinueTruckingSimulation());//this triggers endless loop of trucking simulation events
 
+        Spark.port(2222);
+
         createTestUser();
 
         createTestCustomer();
