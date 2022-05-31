@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import akka.actor.UntypedActor;
 
 public class TruckingVehicleStatusSimulationActor extends UntypedActor {
-    private static Logger logger = Logger.getLogger(BalanceSimulationActor.class.getName());
+    private static Logger logger = Logger.getLogger(TruckingVehicleStatusSimulationActor.class.getName());
 
     public void onReceive(Object object) {
         if (object instanceof ContinueTruckingSimulation){

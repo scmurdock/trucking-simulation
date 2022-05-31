@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 
 public class TruckingPaymentSimulationActor extends UntypedActor {
-    private static Logger logger = Logger.getLogger(BalanceSimulationActor.class.getName());
+    private static Logger logger = Logger.getLogger(TruckingPaymentSimulationActor.class.getName());
 
     public void onReceive(Object object) {
         if (object instanceof ContinueTruckingSimulation){

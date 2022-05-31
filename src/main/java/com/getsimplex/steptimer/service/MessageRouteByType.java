@@ -26,10 +26,6 @@ public class MessageRouteByType extends UntypedActor {
     private ActorRef simulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(SimulationActor.class)));
     private ActorRef kafkaRiskTopicActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(KafkaRiskTopicConsumerActor.class)));
     private ActorRef kafkaRiskTopicProducerActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(KafkaRiskTopicProducerActor.class)));
-    private ActorRef balanceSimulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(BalanceSimulationActor.class)));//a pool of one means that only one actor is running at any moment and if it crashes, the actor restarts
-    private ActorRef atmVisitsSimulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(ATMVisitsSimulationActor.class)));//a pool of one means that only one actor is running at any moment and if it crashes, the actor restarts
-    private ActorRef depositSimulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(DepositSimulationActor.class)));//a pool of one means that only one actor is running at any moment and if it crashes, the actor restarts
-    private ActorRef withdrawalSimulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(ATMWithdrawalSimulationActor.class)));//a pool of one means that only one actor is running at any moment and if it crashes, the actor restarts
     private ActorRef truckingCheckinSimulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(TruckingCheckInSimulationActor.class)));//a pool of one means that only one actor is running at any moment and if it crashes, the actor restarts
     private ActorRef truckingFuelLevelSimulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(TruckingFuelLevelSimulationActor.class)));//a pool of one means that only one actor is running at any moment and if it crashes, the actor restarts
     private ActorRef truckingGearPositionSimulationActor = getContext().actorOf(new RoundRobinPool(1).props(Props.create(TruckingGearPositionSimulationActor.class)));//a pool of one means that only one actor is running at any moment and if it crashes, the actor restarts
@@ -44,12 +40,7 @@ public class MessageRouteByType extends UntypedActor {
         if (object instanceof KafkaTopicMessage){
             kafkaTopicProducerActor.tell(object, self());
         }
-        else if (object instanceof ContinueBalanceSimulation){
-            balanceSimulationActor.tell(object, self());
-            atmVisitsSimulationActor.tell(object, self());
-            withdrawalSimulationActor.tell(object, self());
-            depositSimulationActor.tell(object, self());
-        } else if(object instanceof ContinueTruckingSimulation){
+        else if(object instanceof ContinueTruckingSimulation){
             truckingCheckinSimulationActor.tell(object, self());
             truckingFuelLevelSimulationActor.tell(object, self());
             truckingGearPositionSimulationActor.tell(object, self());

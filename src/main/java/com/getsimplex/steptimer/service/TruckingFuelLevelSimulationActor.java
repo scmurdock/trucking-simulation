@@ -6,7 +6,7 @@ import com.getsimplex.steptimer.model.ContinueTruckingSimulation;
 import java.util.logging.Logger;
 
 public class TruckingFuelLevelSimulationActor extends UntypedActor {
-    private static Logger logger = Logger.getLogger(BalanceSimulationActor.class.getName());
+    private static Logger logger = Logger.getLogger(TruckingFuelLevelSimulationActor.class.getName());
 
     public void onReceive(Object object) {
         if (object instanceof ContinueTruckingSimulation){
